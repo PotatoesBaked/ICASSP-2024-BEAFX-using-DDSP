@@ -37,3 +37,7 @@ distortion_controls:
   drive_dB: [-10,20]
   offset: [0, 1]
   dist_choice: [0, 2]
+
+reverb_controls:
+  decay_time: [0.1, 3.0]  # Temps de réverbération en secondes
+  dry_wet: [0.0, 1.0] 

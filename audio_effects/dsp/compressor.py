@@ -112,4 +112,5 @@ class Compressor(NPFXBase):
                 y_L[n] = alpha_release*y_L[n-1] + (1-alpha_release)*x_L[n]
         
         c = np.power(10, (makeup_gain_dB - y_L)*0.05)
+        print(f'Compressor = {x.size()}')
         return x*c

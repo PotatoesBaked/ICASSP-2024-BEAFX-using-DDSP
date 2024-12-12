@@ -7,6 +7,9 @@ import audio_effects
 import audio_quality_estimation
 from audio_quality_estimation.conv_layers.base import init_model
 
+from audio_effects.differentiable.reverb_differentiable import *
+from audio_effects.reverb import *
+
 import yaml
 
 import lightning.pytorch as pl
@@ -33,10 +36,11 @@ encoder_normalization = audio_quality_estimation.normalize.max_norm
 
 
 
-pathToMUSDB18=''
-root_dir = ''
+pathToMUSDB18= "C:\\Users\\rfea3\\Documents\\musdb_mini"
+#"C:\\Users\\rfea3\\Downloads\\musdb18"
+root_dir = "C:\\Users\\rfea3\\ProjetAppProfond\\ICASSP-2024-BEAFX-using-DDSP\\experience"
 
-num_epochs = 400
+num_epochs = 1
 
 
 plateau_patience=30
@@ -236,6 +240,11 @@ def get_fx_list(fx_list_str, synthesis_ranges_dict_path):
         dist = audio_effects.differentiable.HardnessDist()
         dist.set_ranges_from_dict(synthesis_ranges_dict['distortion_controls'])
         SFX_Chain_.append_FX(dist)
+
+    if 'reverb' in fx_list_str:
+        reverb = SimpleReverb(samplerate=44100,  IR_length=44100) #samplerate=44100, IR_length=44100
+        reverb.set_ranges_from_dict(synthesis_ranges_dict['reverb_controls'])
+        SFX_Chain_.append_FX(reverb)
     
     return SFX_Chain_
 
@@ -408,7 +417,6 @@ def main():
     controller=get_model(AFX_Chain, encoder_type)
     controller = controller.to(device)
     summary(controller, estimate_size = (16, 1, 441000), device = device)
-
     train_loader, valid_loader, test_loader=get_loaders(sfx, pathToMUSDB18=pathToMUSDB18)
 
     optimizer = torch.optim.Adam(controller.parameters(), lr = lr)

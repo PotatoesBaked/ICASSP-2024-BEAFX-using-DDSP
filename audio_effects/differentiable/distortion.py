@@ -70,6 +70,7 @@ class HardnessDist(FXBase):
             other = (2-dist_choice)*out1 + (dist_choice-1)*out2
             )
 
+        print(f'distorsion : {out.size()}')
         return out
 
 
