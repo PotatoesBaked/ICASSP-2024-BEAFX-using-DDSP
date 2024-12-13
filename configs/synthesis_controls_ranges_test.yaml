@@ -41,3 +41,8 @@ distortion_controls:
 reverb_controls:
   decay_time: [0.1, 3.0]  # Temps de réverbération en secondes
   dry_wet: [0.0, 1.0] 
+
+delay_controls:
+  delay_time_sec: [0.1, 2.0]
+  feedback: [0.0, 1.0]
+  dry_wet: [0.0, 1.0]

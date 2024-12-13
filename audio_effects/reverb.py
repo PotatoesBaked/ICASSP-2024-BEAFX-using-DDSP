@@ -19,15 +19,19 @@ def reverb(
     time = torch.arange(IR_length, device=device)/samplerate
 
     IR = torch.zeros((x.size(0), 2, IR_length), device=device)
-    IR = noise*torch.pow(10, 3*time.view(1,1,-1)/decay_time.view(-1,1,1))
-
+    #IR = noise*torch.pow(10, 3*time.view(1,1,-1)/decay_time.view(-1,1,1))
+    IR = noise*torch.pow(10, 3*time.view(1,1,-1)/decay_time)
+    """
     IR = IR.mean(dim=0, keepdim=True)
     IR = IR.mean(dim=1, keepdim=True)
-
-    print(f'{x.size()} et {IR.size()}')
-    out = torch.nn.functional.conv1d(x, IR,padding=22050)
-    out = out[:, :, :-1]
-    print(f'out : {out.size()}')
+"""
+    #print(f'{x.size()} et {IR.size()}')
+    out = torch.nn.functional.conv1d(x, IR)
+    #out = out[:, :, :-1]
+    #print(f'out : {out.size()}')
+    #out_pad = torch.nn.functional.pad(out, (22050, 22050), mode='constant', value=0)
+    
+    #print(f'out_pad = {out_pad.size()}')
     return out
 
 #class SimpleReverb(pl.LightningModule):
