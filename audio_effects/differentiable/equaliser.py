@@ -57,7 +57,6 @@ class LowShelf(FXBase):
             b_coeffs=b
         )
 
-        print(f'out = {out.size()}')
         return out
 
 class HighShelf(FXBase):

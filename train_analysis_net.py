@@ -7,7 +7,6 @@ import audio_effects
 import audio_quality_estimation
 from audio_quality_estimation.conv_layers.base import init_model
 
-from audio_effects.differentiable.reverb_differentiable import *
 from audio_effects.reverb import *
 from audio_effects.delayFX import *
 from audio_effects.reverbFX import *
@@ -38,15 +37,16 @@ encoder_normalization = audio_quality_estimation.normalize.max_norm
 
 
 
-pathToMUSDB18="C:\\Users\\rfea3\\Documents\\musdb_mini"
-#"C:\\Users\\rfea3\\Downloads\\musdb18"
+pathToMUSDB18= "C:\\Users\\rfea3\\Downloads\\musdb18"
+#"C:\\Users\\rfea3\\Documents\\musdb_mini"
+
 root_dir = "C:\\Users\\rfea3\\ProjetAppProfond\\ICASSP-2024-BEAFX-using-DDSP\\experience"
 
-num_epochs = 4
+num_epochs = 30
 
 
-plateau_patience=30
-early_stopping_patience=150
+plateau_patience=3 #30
+early_stopping_patience=150 #150
 
 
 
@@ -244,7 +244,7 @@ def get_fx_list(fx_list_str, synthesis_ranges_dict_path):
         SFX_Chain_.append_FX(dist)
 
     if 'reverb' in fx_list_str:
-        reverb = ReverbFX() #samplerate=44100, IR_length=44100
+        reverb = ReverbFX() 
         reverb.set_ranges_from_dict(synthesis_ranges_dict['reverb_controls'])
         SFX_Chain_.append_FX(reverb)
     
